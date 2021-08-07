@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <title>Berserk - Workshop</title>
+        <link rel="icon" type="image/png" href="image/browser_tag_thor_hammer.png" />
+        <link rel="stylesheet" type="text/css" href="css/home.css" />
+        <style type="text/css">
+            /* body {
+                background-color:lightgreen;
+            } */
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <p>
+                <textarea id="inputtext" rows="10" cols="50" placeholder="Please enter a string"></textarea>
+            </p>
+            <p>
+                <button type="button" onclick="format()">format</button>
+                <button type="button" onclick="formatAndCopy()">format and copy</button>
+                <label><input type="checkbox" id="checksql">to SQL string</label>
+            </p>
+            <p>
+                <textarea id="outputtext" rows="10" cols="50"></textarea>
+            </p>
+        </div>
+
+        <script>
+            function format() {
+                inputText = document.getElementById("inputtext").value;
+                outputText = joinByComma(document.getElementById("checksql").checked);
+                document.getElementById("outputtext").value = outputText;
+            }
+
+            function formatAndCopy() {
+                format();
+                const textElement = document.querySelector('#outputtext');
+                textElement.select();
+                document.execCommand('copy');
+            }
+
+            function joinByComma(isWrapSingleQuotes) {
+                inputText = document.getElementById("inputtext").value;
+                if (!inputText) {
+                    return "";
+                }
+                inputText = inputText.trim();
+                if (!inputText) {
+                    return "";
+                }
+                inputText = trimDelimeter(inputText);
+                if (!inputText) {
+                    return "";
+                }
+                arr = inputText.split(/[;,\s]+/);
+                if (!isWrapSingleQuotes) {
+                    return arr.join(",");
+                }
+                for (let i = 0; i < arr.length; ++i) {
+                    arr[i] = "'" + arr[i] + "'";
+                }
+                return arr.join(",");
+            }
+
+            function trimDelimeter(inputText) {
+                if(!inputText) {
+                    return inputText;
+                }
+                inputText = inputText.replace(/^[;,\s]+/, "");
+                inputText = inputText.replace(/[;,\s]+$/, "");
+                return inputText;
+            }
+        </script>
+    </body>
+</html>

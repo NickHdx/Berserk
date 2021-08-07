@@ -1,0 +1,5 @@
+*.suo
+*.vspscc
+*.vssscc
+*.csproj.user
+.vscode
